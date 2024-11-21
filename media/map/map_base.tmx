@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="65" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="9">
+ <tileset firstgid="1" source="tilesets/Objects.tsx"/>
+ <layer id="7" name="Ground" width="65" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztzjEBAAAMAiDXv/QyePlAAhIAAAAAAOjcOsDcAxpkAAI=
+  </data>
+ </layer>
+ <objectgroup id="3" name="Objects"/>
+ <objectgroup id="6" name="Entities">
+  <object id="7" name="apt_1_door" x="84.8333" y="451.5">
+   <point/>
+  </object>
+  <object id="8" name="map_1_spawn_1" x="84.6667" y="450.333">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Collisions">
+  <object id="4" x="9.99997" y="10" width="27.3333" height="740.667"/>
+  <object id="5" x="10" y="520" width="2062.67" height="201.333"/>
+  <object id="6" x="2024.67" y="-112" width="36" height="848"/>
+ </objectgroup>
+ <objectgroup id="5" name="Over Objects"/>
+</map>

@@ -1,0 +1,62 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map_1.tmx",
+    "expandedProjectPaths": [
+        ".",
+        "tilesets"
+    ],
+    "fileStates": {
+        "map_1.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 355.25,
+                "y": 2787.5
+            }
+        },
+        "map_base.tmx": {
+            "scale": 0.5170192307692307,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 817.1843035149712,
+                "y": 239.83633996652418
+            }
+        },
+        "tilesets/Map_1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 0.5
+        },
+        "tilesets/Objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "tilesets/Tileset_Map_1.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 0.5
+        }
+    },
+    "last.imagePath": "C:/Projects/Project-Uwag/media/map/objects",
+    "map.height": 300,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 300,
+    "openFiles": [
+        "map_1.tmx",
+        "tilesets/Tileset_Map_1.tsx"
+    ],
+    "project": "untitled.tiled-project",
+    "property.type": "int",
+    "recentFiles": [
+        "tilesets/Tileset_Map_1.tsx",
+        "map_1.tmx",
+        "map_base.tmx",
+        "tilesets/Map_1.tsx",
+        "tilesets/Objects.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.type": 0
+}
