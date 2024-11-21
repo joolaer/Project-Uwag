@@ -1,7 +1,7 @@
+import pygame, enums
+from os.path import join 
+from os import walk
 
-
-class Settings:
-    
-    def __init__(self):
-        self.WINDOW_WIDTH, self.WINDOW_HEIGHT = 1280, 720
-        self.FRAME_RATE = 60
+WINDOW_WIDTH, WINDOW_HEIGHT = 1280, 720
+FRAME_RATE = 60
+PLAYER_RUN_SPEED = 10
