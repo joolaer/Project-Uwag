@@ -37,7 +37,7 @@
         },
         "tilesets/Tileset_Map_1.tsx": {
             "scaleInDock": 3,
-            "scaleInEditor": 0.5
+            "scaleInEditor": 0.25
         }
     },
     "last.imagePath": "C:/Projects/Project-Uwag/media/map/objects",
@@ -49,7 +49,7 @@
         "tilesets/Tileset_Map_1.tsx"
     ],
     "project": "untitled.tiled-project",
-    "property.type": "int",
+    "property.type": "float",
     "recentFiles": [
         "tilesets/Tileset_Map_1.tsx",
         "map_1.tmx",

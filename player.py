@@ -44,7 +44,9 @@ class Player(pygame.sprite.Sprite):
     def teleport(self):
         for teleporter in self.teleport_sprites:
             if teleporter.rect.colliderect(self.hitbox_rect):
-                self.hitbox_rect.x = teleporter.object['teleport_x']
+                print(teleporter.object['teleport_to_x'])
+                print(teleporter.object['teleport_to_y'])
+                self.hitbox_rect.midbottom = (teleporter.object['teleport_to_x'], teleporter.object['teleport_to_y'])
     
     def input(self):
         key_pressed = pygame.key.get_pressed()
@@ -63,9 +65,9 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         
         self.hitbox_rect.x += self.direction.x * PLAYER_RUN_SPEED
-        #self.teleport()
+        self.teleport()
         self.collision()
-        self.rect.center = self.hitbox_rect.center
+        self.rect.midbottom = self.hitbox_rect.midbottom
                 
     def _check_direction(self, direction):
         if int(direction) == enums.CNST_DIRECTION_RIGHT:

@@ -1,8 +1,8 @@
 from settings import *
-from types import FunctionType
-from groups import AllSprites
+from groups import AllSprites, AbsoluteSprites
 from player import Player
 from sprites import Sprite, CollisionSprite, NonCollisionSprite, TeleportSprite
+from hud import Hud
 from pytmx.util_pygame import load_pygame
 
 class Game:
@@ -16,9 +16,11 @@ class Game:
         pygame.display.set_caption('Project Uwag')
         self.clock = pygame.time.Clock()
         self.all_sprites = AllSprites()
+        self.absolute_sprites = AbsoluteSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.teleport_sprites = pygame.sprite.Group()
         self.setup()
+        self.hud = Hud(self.absolute_sprites)
         
     def setup(self):
         map = load_pygame(join('media', 'map', 'map_1.tmx'))
@@ -36,7 +38,7 @@ class Game:
             TeleportSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.teleport_sprites, obj.properties)
             
         for obj in map.get_layer_by_name('Entities'):
-            if obj.name == 'spwn_evening_map_1':
+            if obj.name == 'map_1_spawn':
                 self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, self.all_sprites, self.collision_sprites, self.teleport_sprites)
         
     def run(self):
@@ -57,6 +59,7 @@ class Game:
         self.all_sprites.update()
         self.display_surface.fill('black')
         self.all_sprites.draw(self.player.rect.center)
+        self.absolute_sprites.draw(self.display_surface)
         pygame.display.update()
     
 if __name__ == '__main__':

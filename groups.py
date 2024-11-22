@@ -1,3 +1,5 @@
+from typing import Iterable
+from pygame.sprite import AbstractGroup
 from settings import *
 
 class AllSprites(pygame.sprite.Group):
@@ -16,3 +18,7 @@ class AllSprites(pygame.sprite.Group):
         for layer in [ground_sprites, object_sprites]:
             for sprite in sorted(layer, key = lambda sprite: sprite.rect.centery):
                 self.display_surface.blit(sprite.image, sprite.rect.topleft + self.offset)
+                
+class AbsoluteSprites(pygame.sprite.Group):
+    def __init__(self):
+        super().__init__()
