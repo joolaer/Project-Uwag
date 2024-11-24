@@ -32,7 +32,7 @@ class NPC(pygame.sprite.Sprite):
         for sprite in self.character_sprites:
             if isinstance(sprite, player.Player) and sprite.hitbox_rect.colliderect(self.hitbox_rect):
                 key_pressed = pygame.key.get_just_pressed()
-                if key_pressed[pygame.K_SPACE] and helper_dialog.get_dialogue_mode() == False:
+                if key_pressed[pygame.K_w] and helper_dialog.get_dialogue_mode() == False:
                     helper_dialog.set_dialogue_mode(True)
                     self.current_dialog = DialogSprite(self, self.name, self.file_name, self.absolute_sprites)
                         

@@ -44,7 +44,7 @@ class Game:
             if obj.name == 'map_1_spawn':
                 self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.character_sprites), self.collision_sprites, self.teleport_sprites)
         
-        NPC('Mary(Mom)', 'mary', self.all_sprites, self.character_sprites, self.absolute_sprites)
+        NPC('Mary (Mom)', 'mary', self.all_sprites, self.character_sprites, self.absolute_sprites)
                 
         #DialogSprite(self.absolute_sprites, self.display_surface)
         
