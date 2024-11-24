@@ -54,7 +54,7 @@ class Game:
             
             self.clock.tick(60)
             
-            self._check_events()
+            self._check_events()  
             self._update_events()
             
     def _check_events(self):

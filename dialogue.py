@@ -1,12 +1,14 @@
 from settings import *
 from character_data import CHARACTER_DATA
-from dialog_data import DIALOG_DATA
+from dialog_data import DIALOG_DATA, RESPONSE_DATA
 from helpers import *
 import time
+import copy
 
 class DialogSprite(pygame.sprite.Sprite):
     def __init__(self, character, name, filename, all_group):
         super().__init__(all_group)
+        print(f'DIALOG_DATA {DIALOG_DATA}')
         self.character = character
         self.name = name
         self.filename = filename
@@ -14,19 +16,14 @@ class DialogSprite(pygame.sprite.Sprite):
         
         self.character_data = CHARACTER_DATA[self.filename]
         self.face_frames = self.character_data[enums.CNST_DATA_KEY_FACE]
-        self.dialog_data = DIALOG_DATA[self.filename]
-        self.whole_message = self._get_dialog()
-        self.current_message = self.whole_message[0]
-        
-        self.message_split = self.current_message.split('<>')    
-        self.emotion = self.message_split[0]
-        self.type = self.message_split[1]
-        self.message = self.message_split[2]
+        self.dialog_data = copy.deepcopy(DIALOG_DATA[self.filename])
         
         self.face_index = 0
         self.message_index = 0
         self.letters_rendered = 0
         self.dialog_space_key = False
+        self.whole_message = self._get_dialog()
+        self._set_message_choice_dialog()
         
         self.font = pygame.font.Font(None, 30)
         self.start_time = time.time()
@@ -49,9 +46,38 @@ class DialogSprite(pygame.sprite.Sprite):
         
         self.dialog_blit = DialogSpriteBlit(self.message, self.all_group)
         
+    def _set_message_choice_dialog(self):
+        print(self.whole_message)
+        print(self.message_index)
+        self.current_message = self.whole_message[self.message_index]
+        split = self.current_message.split('<>')
+        
+        self.emotion = split[0]
+        self.type = split[1]
+        self.message = split[2]
+        
+    def _reset_message_choice_dialog(self):
+        self.whole_message.clear()
+        self.current_message = None
+        
+        self.emotion = None
+        self.type = None
+        self.message = None
+        self.message_index = 0
+        
+    def _get_advance_type(self):
+        
+        whole_message = self._get_dialog()
+        if self.message_index + 1 < len(whole_message):
+            current_message = whole_message[self.message_index + 1]
+            split = current_message.split('<>')
+            
+            return split[1]
+        else:
+            return None
+        
     def _get_dialog(self):
         oRet = self.dialog_data[enums.CNST_DATA_KEY_DEFAULT][enums.CNST_DATA_KEY_DIALOG]
-        
         for key, value in self.dialog_data.items():
             if key == enums.CNST_DATA_KEY_DEFAULT:
                 continue
@@ -77,24 +103,68 @@ class DialogSprite(pygame.sprite.Sprite):
         self.surf.blit(self.current_face_frame, self.current_face_frame.get_frect(topleft = (0,0)))
         self.surf.blit(self.text_surf_name, self.text_surf_name.get_frect(center = (130, 280)))
         
+    def _set_choices(self):
+        choices = []
+        split = self.current_message.split('<>')
+        for choice in split[2].split('()'):
+            choices.append(choice.split('[]'))
+            
+        self.choices = choices
+        
+    def _chosen_effect(self, chosen):
+        chosen = self.choices[chosen]
+        dialogs = RESPONSE_DATA[chosen[1]][enums.CNST_DATA_KEY_DIALOG]
+        effect = RESPONSE_DATA[chosen[1]][enums.CNST_DATA_KEY_EFFECT]
+        for dialog in dialogs:
+            self.whole_message.append(dialog)
+        
+        for key, value in effect.items():
+            split_key = key.split('<>')
+            split_value = value.split(' ')
+            type = split_key[0]
+            if type == 'stats':
+                stat = split_key[1]
+                value_temp = int(split_value[1])
+                operrand = split_value[0]
+                
+                if operrand == '-':
+                    self.character.stats[stat] = self.character.stats[stat] - value_temp
+                elif operrand == '+':
+                    self.character.stats[stat] = self.character.stats[stat] + value_temp
+                    
+        self.type = enums.CNST_DATA_KEY_DIALOG
+        self.choice_transition = True
+        
+        
     def _check_space_key(self):
         key = pygame.key.get_just_pressed()
-        if key[pygame.K_SPACE] and helper_dialog.get_dialogue_mode():
+        self.choice_transition = False
+        if self.type == 'choices':
+            self._set_choices()
+            if key[pygame.K_1]:
+                self._chosen_effect(0)
+            elif key[pygame.K_2]:
+                self._chosen_effect(1)
+                
+            
+        if key[pygame.K_SPACE] and helper_dialog.get_dialogue_mode() and self.type != 'choices' or self.choice_transition == True:
+            self.choice_transition = False
             if hasattr(self, 'dialog_blit') and self.dialog_blit.animating == False:
-                self.dialog_blit.kill()
-                del self.dialog_blit
+                if self._get_advance_type() != 'choices' or self._get_advance_type() == None:
+                    self.dialog_blit.kill()
+                    del self.dialog_blit
                 
             if hasattr(self, 'dialog_blit') and self.dialog_blit.animating:
                 self.dialog_blit.skip_animation = True
-            elif self.message_index < len(self.whole_message)-1:
+            elif self.message_index < len(self.whole_message) - 1:
                 self.message_index += 1
-                message = self.whole_message[self.message_index].split('<>')
-                self.emotion = message[0]
-                self.message = message[2]
-                self.dialog_blit = DialogSpriteBlit(self.message, self.all_group)
+                self._set_message_choice_dialog()
+                if self.type == 'dialog':
+                    self.dialog_blit = DialogSpriteBlit(self.message, self.all_group)
                 
             else:
                 helper_dialog.set_dialogue_mode(False)
+                self._reset_message_choice_dialog()
                 self.kill()
                 
 

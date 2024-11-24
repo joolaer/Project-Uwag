@@ -17,7 +17,7 @@ class NPC(pygame.sprite.Sprite):
         self.display_surface = pygame.display.get_surface()
         self.frame_index = 0
         # self.dialogue = dialogue
-        # self.stats = stats
+        self.stats = CHARACTER_DATA[self.file_name][enums.CNST_DATA_KEY_STATS]
         self.direction = enums.CNST_DIRECTION_LEFT
         self.idle_frames = CHARACTER_DATA[self.file_name][enums.CNST_DATA_KEY_IDLE]
         self.image = self.idle_frames[self._check_direction(self.direction)][0].convert_alpha()
