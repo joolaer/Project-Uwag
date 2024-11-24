@@ -7,9 +7,9 @@ class Player(pygame.sprite.Sprite):
         self.init_direction = direction
         self.frame_index = 0
         self.load_images()
-        self.image = pygame.image.load(join('media', 'animation', 'run', self._check_direction(self.init_direction), '0.png')).convert_alpha()
+        self.image = pygame.image.load(join('media', 'animation', 'mc', 'run', self._check_direction(self.init_direction), '0.png')).convert_alpha()
         self.rect = self.image.get_rect(midbottom = pos)
-        self.hitbox_rect = self.rect.inflate(-40, 0)
+        self.hitbox_rect = self.rect.inflate(-60, 0)
         self.direction = pygame.Vector2()
         self.state = enums.CNST_STATE_IDLE
         self.collision_sprites = collision_sprites
@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.run_frames = {'left': [], 'right': []}
         
         for state in self.idle_frames.keys():
-            for folder_path, sub_folders, file_names in walk (join('media', 'animation', 'idle', state)):
+            for folder_path, sub_folders, file_names in walk (join('media', 'animation', 'mc', 'idle', state)):
                 if file_names:
                     for file_name in sorted(file_names, key= lambda name: int(name.split('.')[0])):
                         full_path = join(folder_path, file_name)
@@ -28,7 +28,7 @@ class Player(pygame.sprite.Sprite):
                         self.idle_frames[state].append(surf)
             
         for state in self.run_frames.keys():
-            for folder_path, sub_folders, file_names in walk (join('media', 'animation', 'run', state)):
+            for folder_path, sub_folders, file_names in walk (join('media', 'animation', 'mc', 'run', state)):
                 if file_names:
                     for file_name in sorted(file_names, key= lambda name: int(name.split('.')[0])):
                         full_path = join(folder_path, file_name)
@@ -44,14 +44,12 @@ class Player(pygame.sprite.Sprite):
     def teleport(self):
         for teleporter in self.teleport_sprites:
             if teleporter.rect.colliderect(self.hitbox_rect):
-                print(teleporter.object['teleport_to_x'])
-                print(teleporter.object['teleport_to_y'])
                 self.hitbox_rect.midbottom = (teleporter.object['teleport_to_x'], teleporter.object['teleport_to_y'])
     
     def input(self):
         key_pressed = pygame.key.get_pressed()
         
-        if key_pressed[pygame.K_d] or key_pressed[pygame.K_a]:
+        if (key_pressed[pygame.K_d] or key_pressed[pygame.K_a]) and helper_dialog.get_dialogue_mode() == False:
             self.state = enums.CNST_STATE_RUN
             self.direction.x = int(key_pressed[pygame.K_d] - key_pressed[pygame.K_a])
             self.direction = self.direction.normalize() if self.direction else self.direction
