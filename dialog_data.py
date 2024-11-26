@@ -1,40 +1,40 @@
+
+
 DIALOG_DATA = {
     'mary': {
         'default': {
             'dialog': [
-                "normal<>dialog<>Good Morning Baby, \nI hope you you're ready for school! I love you so much",
-                "sus<>dialog<>Goodbye Baby.",
-                "normal<>choices<>Shut up![]cr1()Thanks Mom. I love you so much[]cr2"
+                ["Mary", "normal", "dialog", "Good Morning Baby, \nI hope you you're ready for school! I love you so much"],
+                ["Mary", "sus", "dialog", "Goodbye Baby."],
+                [
+                    "normal", 
+                    "choices", 
+                    {
+                        "Shut up!": {
+                            "effect": [["stats", "love", -5], ["buff", "add", "Slut"]],
+                            "dialog": [
+                                ["MC", "sus", "dialog", "Shut up! Mom, It's your fault we're in this mess."],
+                                ["Mary", "sus", "dialog", "I'm sorry baby, I will do better next time."]
+                            ]
+                        },
+                        "Thanks Mom. I love you so much": {
+                            "effect": [["stats", "love", 5]],
+                            "dialog": [
+                                ["MC", "happy", "dialog", "Thanks Mom, We will get through this. I love you so much"],
+                                ["Mary", "happy", "dialog", "Thank you Baby, Have a good day at school"]
+                            ]
+                        }
+                    }
+                ],
+                ["Mary", "happy", "dialog", "Good By Baby"]
             ]
         },
         'slut': {
-            'condition': {
-              'stats<>lust': '> 50',  
-            },
+            'condition': [["stats", "lust", "> 50"]],
             'dialog': [
                 "sus<>dialog<>Hey Baby, My pussy is wet right now",
                 "sus<>dialog<>Please a lick with suffice or \n............\nI will ask damien to do it for you."
             ]
         }
-    }
-}
-
-RESPONSE_DATA = {
-    'cr1': {
-        'effect': {
-            'stats<>love': '- 5'
-        },
-        'dialog': [
-            "sus<>dialog<>I'm Sorry honey for getting in your face"
-        ]
-    },
-    'cr2': {
-        'effect': {
-            'stats<>love': '+ 5',
-            'stats<>lust': '+ 20'
-        },
-        'dialog': [
-            "normal<>dialog<>Thank you so much Baby\nI love you too Baby."
-        ]
     }
 }

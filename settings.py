@@ -1,5 +1,6 @@
 import pygame, enums, pygame.freetype
 from helpers import Helper_Dialog
+from state import State
 from os.path import join 
 from os import walk
 
@@ -10,3 +11,4 @@ TILE_SIZE = 32
 TEXT_SPEED = 50
 
 helper_dialog = Helper_Dialog()
+state = State()

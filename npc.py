@@ -10,6 +10,7 @@ class NPC(pygame.sprite.Sprite):
     def __init__(self, name, file_name, groups, character_sprites, absolute_sprites):
         super().__init__(groups)
         self.name = name
+        self.emotion = enums.CNST_EMOTION_NORMAL
         self.file_name = file_name
         self.character_sprites = character_sprites
         self.absolute_sprites = absolute_sprites
@@ -44,7 +45,7 @@ class NPC(pygame.sprite.Sprite):
             return 'left'
                         
     def update(self):
-        self.collision()
+        #self.collision()
         self.animate()
         self.rect.midbottom = self.hitbox_rect.midbottom
         

@@ -1,6 +1,6 @@
 from settings import *
 from character_data import CHARACTER_DATA
-from dialog_data import DIALOG_DATA, RESPONSE_DATA
+from dialog_data import DIALOG_DATA
 from helpers import *
 import time
 import copy

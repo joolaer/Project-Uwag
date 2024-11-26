@@ -6,6 +6,8 @@ from player import Player
 from sprites import Sprite, CollisionSprite, NonCollisionSprite, TeleportSprite
 from hud import Hud
 from pytmx.util_pygame import load_pygame
+from face import Face
+from button import Button
 
 class Game:
     
@@ -17,10 +19,12 @@ class Game:
         pygame.display.set_caption('Project Uwag')
         self.clock = pygame.time.Clock()
         self.all_sprites = AllSprites()
+        self.player_sprite = pygame.sprite.GroupSingle()
         self.absolute_sprites = AbsoluteSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.character_sprites = pygame.sprite.Group()
         self.teleport_sprites = pygame.sprite.Group()
+        self.npc_buttons_sprites = pygame.sprite.Group()
         self.setup()
         
     def setup(self):
@@ -42,20 +46,44 @@ class Game:
             
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'map_1_spawn':
-                self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.character_sprites), self.collision_sprites, self.teleport_sprites)
+                self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.player_sprite), self.collision_sprites, self.teleport_sprites)
         
-        NPC('Mary (Mom)', 'mary', self.all_sprites, self.character_sprites, self.absolute_sprites)
+        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.character_sprites, self.absolute_sprites)
                 
         #DialogSprite(self.absolute_sprites, self.display_surface)
         
     def run(self):
         
         while self.running:
-            
-            self.clock.tick(60)
-            
             self._check_events()  
+            self._set_char_collision()
+            self._check_char_collision()
             self._update_events()
+            
+    def _set_char_collision(self):
+        for sprite in self.character_sprites:
+            if self.player.hitbox_rect.colliderect(sprite.hitbox_rect):
+                state.set_STATE_COLLIDED_CHAR(sprite)
+            else:
+                state.set_STATE_COLLIDED_CHAR(None)
+                
+    def _yeah(self):
+        print("yeah")
+                
+    def _check_char_collision(self):
+        char = state.STATE_COLLIDED_CHAR
+        if char:
+            if not hasattr(self, 'face'):
+                self.face = Face(self.absolute_sprites, char)
+                Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510))
+                Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510))
+                Button((self.npc_buttons_sprites), "Inspect", enums.CNST_NPC_BUTTON_TYPE_INSPECT, (475, 510))
+        else:
+            if hasattr(self, 'face'):
+                self.npc_buttons_sprites.empty()
+                self.face.kill()
+                del self.face
+            
             
     def _check_events(self):
         for event in pygame.event.get():
@@ -63,11 +91,14 @@ class Game:
                 self.running = False
     
     def _update_events(self):
+        self.clock.tick(60)
         self.all_sprites.update()
         self.absolute_sprites.update()
+        self.npc_buttons_sprites.update()
         self.display_surface.fill('black')
         self.all_sprites.draw(self.player.rect.center)
         self.absolute_sprites.draw(self.display_surface) 
+        self.npc_buttons_sprites.draw(self.display_surface)
         pygame.display.update()
     
 if __name__ == '__main__':
