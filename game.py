@@ -48,9 +48,7 @@ class Game:
             if obj.name == 'map_1_spawn':
                 self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.player_sprite), self.collision_sprites, self.teleport_sprites)
         
-        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.character_sprites, self.absolute_sprites)
-                
-        #DialogSprite(self.absolute_sprites, self.display_surface)
+        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.absolute_sprites, self.npc_buttons_sprites)
         
     def run(self):
         
@@ -67,17 +65,17 @@ class Game:
             else:
                 state.set_STATE_COLLIDED_CHAR(None)
                 
-    def _yeah(self):
-        print("yeah")
                 
     def _check_char_collision(self):
         char = state.STATE_COLLIDED_CHAR
         if char:
             if not hasattr(self, 'face'):
                 self.face = Face(self.absolute_sprites, char)
-                Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510))
-                Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510))
-                Button((self.npc_buttons_sprites), "Inspect", enums.CNST_NPC_BUTTON_TYPE_INSPECT, (475, 510))
+                print(state.STATE_COLLIDED_CHAR_MODE)
+                if state.STATE_COLLIDED_CHAR_MODE != enums.CNST_DATA_KEY_DIALOG:
+                    Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), char.talk)
+                    Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510), char.action)
+                    Button((self.npc_buttons_sprites), "Inspect", enums.CNST_NPC_BUTTON_TYPE_INSPECT, (475, 510), char.inspect)
         else:
             if hasattr(self, 'face'):
                 self.npc_buttons_sprites.empty()
@@ -89,6 +87,9 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+        if state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK:
+            self.npc_buttons_sprites.empty()
+                
     
     def _update_events(self):
         self.clock.tick(60)

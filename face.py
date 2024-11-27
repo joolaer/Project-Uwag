@@ -8,7 +8,7 @@ class Face(pygame.sprite.Sprite):
         self.character = character
         self.name = self.character.name
         self.file_name = self.character.file_name
-        self.emotion = self.character.emotion
+        self.face_index = 0
         
         self.face_frames = copy.deepcopy(CHARACTER_DATA[self.file_name][enums.CNST_DATA_KEY_FACE])
         self.font = pygame.font.Font(None, 30)
@@ -24,11 +24,12 @@ class Face(pygame.sprite.Sprite):
         
         
     def animate_face(self):
-        if state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK:
+        if state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK and self.character.dialog_type == 'dialog':
             self.face_index = self.face_index + .1
-            self.current_face_frame = self.face_frames[self.emotion][int(self.face_index) % len(self.face_frames[self.emotion])]
+            self.current_face_frame = self.face_frames[self.character.emotion][int(self.face_index) % len(self.face_frames[self.character.emotion])].convert_alpha()
         else:
-            self.current_face_frame = self.face_frames[self.emotion][0]
+            self.current_face_frame = self.face_frames[self.character.emotion][0]
+            
         self.surf.blit(self.current_face_frame, self.current_face_frame.get_frect(topleft = (0,0)))
         
     def update(self):

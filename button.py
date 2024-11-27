@@ -3,10 +3,11 @@ from settings import *
 
 class Button(pygame.sprite.Sprite):
     
-    def __init__(self, groups, text, type, pos) -> None:
+    def __init__(self, groups, text, type, pos, function) -> None:
         super().__init__(groups)
         self.text = text
         self.type = type
+        self.function = function
         self.font = pygame.font.Font(None, 24)
         
         self.text_surf = self.font.render(self.text, False, (50,50,50))
@@ -21,12 +22,17 @@ class Button(pygame.sprite.Sprite):
     def _if_hovered(self):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            print(self.text)
             self.surf.fill((255, 255 ,255))
             self.text_surf = self.font.render(self.text, False, (0,0,0))
+            
+            if pygame.mouse.get_just_pressed()[0]:
+                self.function()
         else:
             self.surf.fill((200,200,200))
             self.text_surf = self.font.render(self.text, False, (50,50,50))
+        
+        
+            
     def update(self) -> None:
         self._if_hovered()
         self.surf.blit(self.text_surf, self.text_surf.get_frect(center = (self.width / 2, self.height / 2)))

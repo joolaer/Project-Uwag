@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         key_pressed = pygame.key.get_pressed()
         
-        if (key_pressed[pygame.K_d] or key_pressed[pygame.K_a]) and helper_dialog.get_dialogue_mode() == False:
+        if (key_pressed[pygame.K_d] or key_pressed[pygame.K_a]) and state.STATE_COLLIDED_CHAR_MODE != enums.CNST_NPC_BUTTON_TYPE_TALK:
             self.state = enums.CNST_STATE_RUN
             self.direction.x = int(key_pressed[pygame.K_d] - key_pressed[pygame.K_a])
             self.direction = self.direction.normalize() if self.direction else self.direction

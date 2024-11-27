@@ -35,8 +35,6 @@ CHARACTER_DATA = {
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '6.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '7.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '8.png')),
-                pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '7.png')),
-                pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '8.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '9.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '10.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'normal', '11.png')),
