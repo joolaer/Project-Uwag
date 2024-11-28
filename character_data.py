@@ -4,7 +4,7 @@ CHARACTER_DATA = {
     'mary': {
         'stats': {
           'love': 100,
-          'lust':40,
+          'lust': 50,
           'manipulation': 0,
           'desperation': 0,
           'corruption': 0,

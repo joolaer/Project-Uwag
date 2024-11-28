@@ -31,6 +31,10 @@ class NPC(pygame.sprite.Sprite):
         print(f'{self.name} is talking')
         state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_TALK)
         self.current_dialog = DialogSprite(self, self.name, self.file_name, self.absolute_sprite, self.npc_buttons_sprites)
+        
+    def remove_dialog(self):
+        self.current_dialog.kill()
+        del self.current_dialog
     
     def action(self):
         print(f'{self.name} is actioning')

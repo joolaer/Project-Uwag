@@ -71,7 +71,6 @@ class Game:
         if char:
             if not hasattr(self, 'face'):
                 self.face = Face(self.absolute_sprites, char)
-                print(state.STATE_COLLIDED_CHAR_MODE)
                 if state.STATE_COLLIDED_CHAR_MODE != enums.CNST_DATA_KEY_DIALOG:
                     Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), char.talk)
                     Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510), char.action)

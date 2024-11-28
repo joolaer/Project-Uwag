@@ -11,7 +11,7 @@ DIALOG_DATA = {
                     "choices", 
                     {
                         "Shut up!": {
-                            "effect": [["stats", "love", -5], ["buff", "add", "Slut"]],
+                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff", "add", "Slut"]],
                             "dialog": [
                                 ["MC", "sus", "dialog", "Shut up! Mom, It's your fault we're in this mess."],
                                 ["Mary", "sus", "dialog", "I'm sorry baby, I will do better next time."]
@@ -23,6 +23,13 @@ DIALOG_DATA = {
                                 ["MC", "normal", "dialog", "Thanks Mom, We will get through this. I love you so much"],
                                 ["Mary", "normal", "dialog", "Thank you Baby, Have a good day at school"]
                             ]
+                        },
+                        "Fuck you!": {
+                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff", "add", "Slut"]],
+                            "dialog": [
+                                ["MC", "sus", "dialog", "Shut up! Mom, It's your fault we're in this mess."],
+                                ["Mary", "sus", "dialog", "I'm sorry baby, I will do better next time."]
+                            ]
                         }
                     }
                 ],
@@ -32,8 +39,8 @@ DIALOG_DATA = {
         'slut': {
             'condition': [["stats", "lust", "> 50"]],
             'dialog': [
-                ["sus", "dialog", "Hey Baby, My pussy is wet right now"],
-                ["sus", "dialog", "Please a lick with suffice or \n............\nI will ask damien to do it for you."]
+                ["Mary", "sus", "dialog", "Hey Baby, My pussy is wet right now"],
+                ["Mary", "sus", "dialog", "Please a lick with suffice or \n............\nI will ask damien to do it for you."]
             ]
         }
     }

@@ -2,7 +2,7 @@ from settings import *
 from character_data import CHARACTER_DATA
 from dialog_data import DIALOG_DATA
 from helpers import *
-from button import Button
+from button import Button, ChoicesButton
 
 import time
 import copy
@@ -14,6 +14,8 @@ class DialogSprite(pygame.sprite.Sprite):
         self.name = name
         self.filename = filename
         self.all_group = all_group
+        self.screen = pygame.display.get_surface()
+        self.choices_group = pygame.sprite.Group()
         self.npc_buttons_sprites = npc_buttons_sprites
         
         self.character_data = copy.deepcopy(CHARACTER_DATA[self.filename])
@@ -24,6 +26,7 @@ class DialogSprite(pygame.sprite.Sprite):
         self.message_index = 0
         self.letters_rendered = 0
         self.dialog_space_key = False
+        self.has_choices = False
         self.whole_message = self._get_dialog()
         self._set_message_choice_dialog()
         
@@ -93,16 +96,15 @@ class DialogSprite(pygame.sprite.Sprite):
                         if condition_type == 'stats':
                             stats = condition[2].split(' ')
                             stat_condition = stats[0]
-                            stat_amount = stats[1]
-                            
-                            if stat_condition == '>' and self.character_data['stats'][condition_value] > int(stat_amount):
+                            stat_amount = int(stats[1])
+                            if stat_condition == '>' and self.character.stats[condition_value] > stat_amount:
                                 oRet = value[enums.CNST_DATA_KEY_DIALOG]
                                 
         return oRet      
         
-    def _chosen_effect(self, chosen):
-        keylist = list(self.choices.keys())
-        chosen = self.choices[keylist[chosen]]
+    def _chosen_effect(self, chosen_key):
+        print("chosen")
+        chosen = self.choices[chosen_key]
         index = self.message_index + 1
         
         if chosen:
@@ -121,41 +123,56 @@ class DialogSprite(pygame.sprite.Sprite):
                     
             self.dialog_type = enums.CNST_DATA_KEY_DIALOG
             self.character.dialog_type = enums.CNST_DATA_KEY_DIALOG
-            self.choice_transition = True
+            self.reset_choices()
+            self.render_dialog()
+            
+    def render_choices(self):
+        y_pos = 100
+        self.has_choices = True
+        choices = self.current_message[3].keys()
+        for choice in choices: 
+            ChoicesButton((self.all_group, self.choices_group), choice, y_pos, self)
+            y_pos += 60
+        
+    def reset_choices(self):
+        print("reset")
+        self.has_choices = False
+        self.choices = None
+        for sprite in self.choices_group:
+            sprite.kill()
         
         
     def _check_space_key(self):
         key = pygame.key.get_just_pressed()
         self.choice_transition = False
-        if self.dialog_type == 'choices':
-            if key[pygame.K_1]:
-                self._chosen_effect(0)
-            elif key[pygame.K_2]:
-                self._chosen_effect(1)
-                
+        if self.dialog_type == 'choices' and self.has_choices == False:
+            self.render_choices()
             
-        if key[pygame.K_SPACE] and state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK and self.dialog_type != 'choices' or self.choice_transition == True:
-            self.choice_transition = False
-            if hasattr(self, 'dialog_blit') and self.dialog_blit.animating == False:
-                if self._get_advance_type() != 'choices' or self._get_advance_type() == None:
-                    self.dialog_blit.kill()
-                    del self.dialog_blit
-                
-            if hasattr(self, 'dialog_blit') and self.dialog_blit.animating:
-                self.dialog_blit.skip_animation = True
-            elif self.message_index < len(self.whole_message) - 1:
-                self.message_index += 1
-                self._set_message_choice_dialog()
-                if self.dialog_type == 'dialog':
-                    self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.all_group)
-                
-            else:
-                state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_NONE)
-                self._reset_message_choice_dialog()
-                Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), self.character.talk)
-                Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510), self.character.action)
-                Button((self.npc_buttons_sprites), "Inspect", enums.CNST_NPC_BUTTON_TYPE_INSPECT, (475, 510), self.character.inspect)
-                self.kill()
+        if key[pygame.K_SPACE] and state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK and self.dialog_type == enums.CNST_DATA_KEY_DIALOG:
+            self.render_dialog()
+            
+    def render_dialog(self):
+        if hasattr(self, 'dialog_blit') and self.dialog_blit.animating == False:
+            if self._get_advance_type() != 'choices' or self._get_advance_type() == None:
+                self.dialog_blit.kill()
+                del self.dialog_blit
+            
+        if hasattr(self, 'dialog_blit') and self.dialog_blit.animating:
+            self.dialog_blit.skip_animation = True
+        elif self.message_index < len(self.whole_message) - 1:
+            self.message_index += 1
+            self._set_message_choice_dialog()
+            if self.dialog_type == 'dialog':
+                self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.all_group)
+            
+        else:
+            state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_NONE)
+            self._reset_message_choice_dialog()
+            Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), self.character.talk)
+            Button((self.npc_buttons_sprites), "Action", enums.CNST_NPC_BUTTON_TYPE_ACTION, (375, 510), self.character.action)
+            Button((self.npc_buttons_sprites), "Inspect", enums.CNST_NPC_BUTTON_TYPE_INSPECT, (475, 510), self.character.inspect)
+            self.kill()
+            self.character.remove_dialog()
                 
 
     def update(self):
