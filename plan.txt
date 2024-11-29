@@ -1,0 +1,14 @@
+delay buff effect
+inspect
+inventory
+level
+
+player stats:
+HP,
+DEF,
+Attack,
+Speed,
+Crit Rate,
+Crit Damage,
+Accuracy,
+Resistance,

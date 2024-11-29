@@ -1,19 +1,33 @@
 from settings import *
+from character_data import PLAYER_DATA
 
 class Player(pygame.sprite.Sprite):
     
-    def __init__(self, pos, direction, groups, collision_sprites, teleport_sprites):
+    def __init__(self, position, direction, groups, collision_sprites, teleport_sprites):
         super().__init__(groups)
+        self.position = position
         self.init_direction = direction
+        self.collision_sprites = collision_sprites
+        self.teleport_sprites = teleport_sprites
         self.frame_index = 0
+        
+        self.load_player_initial_data()
         self.load_images()
+        
         self.image = pygame.image.load(join('media', 'animation', 'mc', 'run', self._check_direction(self.init_direction), '0.png')).convert_alpha()
-        self.rect = self.image.get_rect(midbottom = pos)
+        self.rect = self.image.get_rect(midbottom = self.position)
         self.hitbox_rect = self.rect.inflate(-60, 0)
         self.direction = pygame.Vector2()
         self.state = enums.CNST_STATE_IDLE
-        self.collision_sprites = collision_sprites
-        self.teleport_sprites = teleport_sprites
+        
+    def load_player_initial_data(self):
+        self.player_data = deepcopy(PLAYER_DATA['stats'])
+        self.stats = self.player_data['stats']
+        self.level = self.player_data['level']
+        self.items = self.player_data['items']
+        self.skills = self.player_data['skills']
+        self.actions = self.player_data['actions']
+        self.inventory = self.player_data['inventory']
         
     def load_images(self):
         self.idle_frames = {'left': [], 'right': []}

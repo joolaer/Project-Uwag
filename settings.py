@@ -1,4 +1,5 @@
 import pygame, enums, pygame.freetype
+from copy import deepcopy
 from helpers import Helper_Dialog
 from state import State
 from os.path import join 

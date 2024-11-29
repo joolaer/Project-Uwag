@@ -1,5 +1,40 @@
 from settings import *
 
+PLAYER_DATA = {
+    'level': 0,
+    'stats': {
+        'hp': 3000,
+        'def': 50,
+        'atk': 50,
+        'speed': 100,
+        'crt. rate': 15,
+        'crt. dmg': 30,
+        'accuracy': 15,
+        'resistance': 15
+    },
+    'items': {
+        'head': None,
+        'upper': None,
+        'lower': None,
+        'shoes': None,
+        'main hand': None,
+        'off hand': None
+    },
+    'skills': {
+        '1st': 'tackle',
+        '2nd': 'warm up',
+        '3rd': 'throw dirt',
+        '4th': None
+    },
+    'actions': {
+        '1st': 'fight',
+        '2nd': 'items',
+        '3rd': 'run',
+    },
+    'inventory': []
+    
+}
+
 CHARACTER_DATA = {
     'mary': {
         'stats': {
