@@ -8,9 +8,10 @@ import time
 import copy
 
 class DialogSprite(pygame.sprite.Sprite):
-    def __init__(self, character, name, filename, all_group, npc_buttons_sprites):
+    def __init__(self, character, game_time, name, filename, all_group, npc_buttons_sprites):
         super().__init__(all_group)
         self.character = character
+        self.game_time = game_time
         self.name = name
         self.filename = filename
         self.all_group = all_group
@@ -120,6 +121,14 @@ class DialogSprite(pygame.sprite.Sprite):
                     value_temp = effect[2]
                     
                     self.character.stats[stat] = self.character.stats[stat] + value_temp
+                elif type == 'action':
+                    action = effect[1]
+                    value = effect[2]
+                    if action == "decrease":
+                        self.game_time.decrement_available_action(value)
+                    elif action == "increase":
+                        self.game_time.increment_available_action(value)
+                    
                     
             self.dialog_type = enums.CNST_DATA_KEY_DIALOG
             self.character.dialog_type = enums.CNST_DATA_KEY_DIALOG
@@ -135,7 +144,6 @@ class DialogSprite(pygame.sprite.Sprite):
             y_pos += 60
         
     def reset_choices(self):
-        print("reset")
         self.has_choices = False
         self.choices = None
         for sprite in self.choices_group:
@@ -208,12 +216,10 @@ class DialogSpriteBlit(pygame.sprite.Sprite):
             self.letters_rendered = int(self.elapsed_time * TEXT_SPEED)
             self.current_text = self.message[:self.letters_rendered+1]
             self.blit_dialog()
-            self.image = self.surf
             
             if self.letters_rendered > len(self.message):
                 self.animating = False
                 
         else:
             self.blit_dialog()
-            self.image = self.surf
             self.animating = False

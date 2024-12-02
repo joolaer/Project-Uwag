@@ -101,3 +101,7 @@ CHARACTER_DATA = {
         }
     }
 }
+
+TIME_DATA = {
+    'text': ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night']
+}

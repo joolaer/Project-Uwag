@@ -8,6 +8,7 @@ from hud import Hud
 from pytmx.util_pygame import load_pygame
 from face import Face
 from button import Button
+from game_time import GameTime
 
 class Game:
     
@@ -47,8 +48,11 @@ class Game:
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'map_1_spawn':
                 self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.player_sprite), self.collision_sprites, self.teleport_sprites)
+                
+        self.game_time = GameTime((self.absolute_sprites))
         
-        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.absolute_sprites, self.npc_buttons_sprites)
+        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.game_time, self.absolute_sprites, self.npc_buttons_sprites)
+        
         
     def run(self):
         

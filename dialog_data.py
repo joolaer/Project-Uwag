@@ -18,7 +18,7 @@ DIALOG_DATA = {
                             ]
                         },
                         "Thanks Mom. I love you so much": {
-                            "effect": [["stats", "love", 5]],
+                            "effect": [["stats", "love", 5], ['action', 'decrease', 1]],
                             "dialog": [
                                 ["MC", "normal", "dialog", "Thanks Mom, We will get through this. I love you so much"],
                                 ["Mary", "normal", "dialog", "Thank you Baby, Have a good day at school"]

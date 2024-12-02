@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.CNST_STATE_IDLE
         
     def load_player_initial_data(self):
-        self.player_data = deepcopy(PLAYER_DATA['stats'])
+        self.player_data = deepcopy(PLAYER_DATA)
         self.stats = self.player_data['stats']
         self.level = self.player_data['level']
         self.items = self.player_data['items']
