@@ -1,5 +1,5 @@
 from settings import *
-from character_data import CHARACTER_DATA
+from character_data import CHARACTER_DATA, CHARACTER_DIALOG_COLOR
 from dialog_data import DIALOG_DATA
 from helpers import *
 from button import Button, ChoicesButton
@@ -46,7 +46,7 @@ class DialogSprite(pygame.sprite.Sprite):
         self.animating = True
 
         
-        self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.all_group)
+        self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.dialog_name, self.all_group)
         
     def _set_message_choice_dialog(self):
         self.current_message = self.whole_message[self.message_index]
@@ -171,7 +171,7 @@ class DialogSprite(pygame.sprite.Sprite):
             self.message_index += 1
             self._set_message_choice_dialog()
             if self.dialog_type == 'dialog':
-                self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.all_group)
+                self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.dialog_name, self.all_group)
             
         else:
             state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_NONE)
@@ -182,20 +182,32 @@ class DialogSprite(pygame.sprite.Sprite):
             self.kill()
             self.character.remove_dialog()
                 
+    def _check_if_talking(self):
+        if self.dialog_name:
+            if self.dialog_name.lower() == self.filename:
+                self.character.talking = True
+            else: 
+                self.character.talking = False
 
     def update(self):
         self._check_space_key()
+        self._check_if_talking()
+        
+            
             
 
 class DialogSpriteBlit(pygame.sprite.Sprite):
-    def __init__(self, message, groups):
+    def __init__(self, message, name ,groups):
         super().__init__(groups)
         self.message = message
+        self.name = name
         
+        self.font_color = self.get_font_color()
         self.font = pygame.font.Font(None, 30)
+        self.get_font()
+        
         self.surf = pygame.Surface((1070,300), pygame.SRCALPHA)
         self.surf.fill((0,0,0,0))
-        
         self.image = self.surf
         self.rect = self.image.get_frect(bottomleft = (0, 720))
         
@@ -205,8 +217,11 @@ class DialogSpriteBlit(pygame.sprite.Sprite):
         self.skip_animation = False
         self.animating = True
         
+    def get_font_color(self):
+        return deepcopy(CHARACTER_DIALOG_COLOR[self.name])
+        
     def blit_dialog(self):
-        self.text_surf_dialog = self.font.render(self.current_text if not self.skip_animation else self.message, False, (255, 255 ,255))
+        self.text_surf_dialog = self.font.render(self.current_text if not self.skip_animation else self.message, False, self.font_color)
         self.surf.blit(self.text_surf_dialog, self.text_surf_dialog.get_frect(topleft = (280, 100)))
         self.image = self.surf
         
@@ -223,3 +238,12 @@ class DialogSpriteBlit(pygame.sprite.Sprite):
         else:
             self.blit_dialog()
             self.animating = False
+    
+    def get_font(self):
+        first_letter = self.message[0]
+        if first_letter == '/':
+            self.font.italic = True
+            self.message = self.message[1:]
+        elif first_letter == '*':
+            self.font.bold = True
+            self.message = self.message[1:]

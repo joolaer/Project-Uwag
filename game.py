@@ -16,7 +16,7 @@ class Game:
         # setup
         pygame.init()
         self.running = True
-        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) 
         pygame.display.set_caption('Project Uwag')
         self.clock = pygame.time.Clock()
         self.all_sprites = AllSprites()
@@ -105,6 +105,7 @@ class Game:
         self.npc_buttons_sprites.draw(self.display_surface)
         pygame.display.update()
     
+gamevar = Game()
+
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    gamevar.run()

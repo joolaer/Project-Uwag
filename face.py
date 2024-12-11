@@ -24,7 +24,8 @@ class Face(pygame.sprite.Sprite):
         
         
     def animate_face(self):
-        if state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK and self.character.dialog_type == 'dialog':
+        if ((state.STATE_COLLIDED_CHAR_MODE == enums.CNST_NPC_BUTTON_TYPE_TALK and self.character.dialog_type == 'dialog') and 
+            (self.character.talking == True)):
             self.face_index = self.face_index + .1
             self.current_face_frame = self.face_frames[self.character.emotion][int(self.face_index) % len(self.face_frames[self.character.emotion])].convert_alpha()
         else:

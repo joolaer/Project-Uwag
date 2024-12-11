@@ -18,8 +18,9 @@ DIALOG_DATA = {
                             ]
                         },
                         "Thanks Mom. I love you so much": {
-                            "effect": [["stats", "love", 5], ['action', 'decrease', 1]],
+                            "effect": [["stats", "love", 5], ['action', 'decrease', 3]],
                             "dialog": [
+                                ["MC", "normal", "dialog", "/I know most of the stuff here is her fault but shit just happens y'know\nshe is not in control of what to happen she just didn't expect it and \nchose the wrong decision."],
                                 ["MC", "normal", "dialog", "Thanks Mom, We will get through this. I love you so much"],
                                 ["Mary", "normal", "dialog", "Thank you Baby, Have a good day at school"]
                             ]
@@ -38,6 +39,13 @@ DIALOG_DATA = {
         },
         'slut': {
             'condition': [["stats", "lust", "> 50"]],
+            'dialog': [
+                ["Mary", "sus", "dialog", "Hey Baby, My pussy is kinda itchy"],
+                ["Mary", "sus", "dialog", "I would like to go to the ghetto, Im just gonna buy something there \n............\nI already baught canned food just microwave it okay? love you."]
+            ]
+        },
+        'incest': {
+            'condition': [["buff", "with", "incest"]],
             'dialog': [
                 ["Mary", "sus", "dialog", "Hey Baby, My pussy is wet right now"],
                 ["Mary", "sus", "dialog", "Please a lick with suffice or \n............\nI will ask damien to do it for you."]

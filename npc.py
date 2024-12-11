@@ -10,6 +10,7 @@ class NPC(pygame.sprite.Sprite):
     def __init__(self, name, file_name, groups, game_time, absolute_sprite, npc_buttons_sprites):
         super().__init__(groups)
         self.name = name
+        self.talking = False
         self.dialog_type = enums.CNST_NPC_BUTTON_TYPE_NONE
         self.emotion = enums.CNST_EMOTION_NORMAL
         self.file_name = file_name

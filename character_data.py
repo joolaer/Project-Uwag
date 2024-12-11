@@ -105,3 +105,12 @@ CHARACTER_DATA = {
 TIME_DATA = {
     'text': ['Morning', 'Noon', 'Afternoon', 'Evening', 'Night']
 }
+
+DAY_DATA = {
+    'text': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+}
+
+CHARACTER_DIALOG_COLOR = {
+    'Mary': (132, 11, 11),
+    'MC': (59, 198, 237)
+}
