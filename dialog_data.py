@@ -1,54 +1,54 @@
-
+from enums import *
 
 DIALOG_DATA = {
     'mary': {
         'default': {
             'dialog': [
-                ["Mary", "normal", "dialog", "Good Morning Baby, \nI hope you you're ready for school! I love you so much"],
+                ["Mary", "normal", "dialog", "Sample Dialog Dialog 1"],
                 [
                     "MC",
                     "normal", 
                     "choices", 
                     {
-                        "Shut up!": {
-                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff", "add", "Slut"]],
+                        "Sample Choice 1": {
+                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff-add", "time", CNST_BUFF_MARY_01]],
                             "dialog": [
-                                ["MC", "sus", "dialog", "Shut up! Mom, It's your fault we're in this mess."],
-                                ["Mary", "sus", "dialog", "I'm sorry baby, I will do better next time."]
+                                ["MC", "sus", "dialog", "Sample Dialog Dialog 2"],
+                                ["Mary", "sus", "dialog", "Sample Dialog Dialog 3"]
                             ]
                         },
-                        "Thanks Mom. I love you so much": {
-                            "effect": [["stats", "love", 5], ['action', 'decrease', 3]],
+                        "Sample Choice 2": {
+                            "effect": [['action', 'decrease', 3], ["buff-add", "date", CNST_BUFF_MARY_02]],
                             "dialog": [
-                                ["MC", "normal", "dialog", "/I know most of the stuff here is her fault but shit just happens y'know\nshe is not in control of what to happen she just didn't expect it and \nchose the wrong decision."],
-                                ["MC", "normal", "dialog", "Thanks Mom, We will get through this. I love you so much"],
-                                ["Mary", "normal", "dialog", "Thank you Baby, Have a good day at school"]
+                                ["MC", "normal", "dialog", "Sample Dialog Dialog 4"],
+                                ["MC", "normal", "dialog", "Sample Dialog Dialog 5"],
+                                ["Mary", "normal", "dialog", "Sample Dialog Dialog 6"]
                             ]
                         },
-                        "Fuck you!": {
-                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff", "add", "Slut"]],
+                        "Sample Choice 3": {
+                            "effect": [["stats", "love", -5], ["stats", "lust", 20], ["buff-add", "immediate", CNST_BUFF_MARY_03]],
                             "dialog": [
-                                ["MC", "sus", "dialog", "Shut up! Mom, It's your fault we're in this mess."],
-                                ["Mary", "sus", "dialog", "I'm sorry baby, I will do better next time."]
+                                ["MC", "sus", "dialog", "Sample Dialog Dialog 7"],
+                                ["Mary", "sus", "dialog", "Sample Dialog Dialog 8"]
                             ]
                         }
                     }
                 ],
-                ["Mary", "normal", "dialog", "Good Bye Baby"]
+                ["Mary", "normal", "dialog", "Sample Dialog Dialog 9"]
             ]
         },
-        'slut': {
+        'dlg-02': {
             'condition': [["stats", "lust", "> 50"]],
             'dialog': [
-                ["Mary", "sus", "dialog", "Hey Baby, My pussy is kinda itchy"],
-                ["Mary", "sus", "dialog", "I would like to go to the ghetto, Im just gonna buy something there \n............\nI already baught canned food just microwave it okay? love you."]
+                ["Mary", "sus", "dialog", "Sample Dialog Dialog 13"],
+                ["Mary", "sus", "dialog", "Sample Dialog Dialog 14"]
             ]
         },
-        'incest': {
-            'condition': [["buff", "with", "incest"]],
+        'dlg-01': {
+            'condition': [["buff", "with", "buff01"]],
             'dialog': [
-                ["Mary", "sus", "dialog", "Hey Baby, My pussy is wet right now"],
-                ["Mary", "sus", "dialog", "Please a lick with suffice or \n............\nI will ask damien to do it for you."]
+                ["Mary", "sus", "dialog", "Sample Dialog Dialog 11"],
+                ["Mary", "sus", "dialog", "Sample Dialog Dialog 12"]
             ]
         }
     }

@@ -17,7 +17,7 @@ class Game:
         pygame.init()
         self.running = True
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT)) 
-        pygame.display.set_caption('Project Uwag')
+        pygame.display.set_caption('Project Game')
         self.clock = pygame.time.Clock()
         self.all_sprites = AllSprites()
         self.player_sprite = pygame.sprite.GroupSingle()
@@ -51,7 +51,7 @@ class Game:
                 
         self.game_time = GameTime((self.absolute_sprites))
         
-        NPC('Mary (Mom)', 'mary', (self.all_sprites, self.character_sprites), self.game_time, self.absolute_sprites, self.npc_buttons_sprites)
+        NPC('Mary', 'mary', (self.all_sprites, self.character_sprites), self.game_time, self.absolute_sprites, self.npc_buttons_sprites)
         
         
     def run(self):
@@ -95,6 +95,7 @@ class Game:
                 
     
     def _update_events(self):
+        print(state.get_buffs())
         self.clock.tick(60)
         self.all_sprites.update()
         self.absolute_sprites.update()

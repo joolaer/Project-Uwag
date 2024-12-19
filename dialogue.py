@@ -1,7 +1,6 @@
 from settings import *
 from character_data import CHARACTER_DATA, CHARACTER_DIALOG_COLOR
 from dialog_data import DIALOG_DATA
-from helpers import *
 from button import Button, ChoicesButton
 
 import time
@@ -47,6 +46,13 @@ class DialogSprite(pygame.sprite.Sprite):
 
         
         self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.dialog_name, self.all_group)
+
+        self.effect_types = {
+            'stats': self.effect_type_stats,
+            'action': self.effect_type_actions,
+            'buff-add': self.effect_type_buff_add,
+            'buff-remove': self.effect_type_buff_remove
+        }
         
     def _set_message_choice_dialog(self):
         self.current_message = self.whole_message[self.message_index]
@@ -104,7 +110,6 @@ class DialogSprite(pygame.sprite.Sprite):
         return oRet      
         
     def _chosen_effect(self, chosen_key):
-        print("chosen")
         chosen = self.choices[chosen_key]
         index = self.message_index + 1
         
@@ -116,24 +121,42 @@ class DialogSprite(pygame.sprite.Sprite):
         
             for effect in chosen['effect']:
                 type = effect[0]
-                if type == 'stats':
-                    stat = effect[1]
-                    value_temp = effect[2]
-                    
-                    self.character.stats[stat] = self.character.stats[stat] + value_temp
-                elif type == 'action':
-                    action = effect[1]
-                    value = effect[2]
-                    if action == "decrease":
-                        self.game_time.decrement_available_action(value)
-                    elif action == "increase":
-                        self.game_time.increment_available_action(value)
-                    
-                    
+
+                self.effect_types.get(type, self.effect_type_default)(effect)
+                
             self.dialog_type = enums.CNST_DATA_KEY_DIALOG
             self.character.dialog_type = enums.CNST_DATA_KEY_DIALOG
             self.reset_choices()
             self.render_dialog()
+
+    def effect_type_stats(self, effect):
+        stat = effect[1]
+        value_temp = effect[2]
+        self.character.stats[stat] = self.character.stats[stat] + value_temp
+
+    def effect_type_actions(self, effect):
+        action = effect[1]
+        value = effect[2]
+        if action == "decrease":
+            self.game_time.decrement_available_action(value)
+        elif action == "increase":
+            self.game_time.increment_available_action(value)
+
+    def effect_type_buff_add(self, effect):
+        action = effect[1]
+        value = effect[2]
+
+        if action == 'date':
+            state.add_buff_date_delay(value)
+        elif action == 'time':
+            state.add_buff_time_delay(value)
+        else:
+            state.immediate_buff(value
+                                 )
+    def effect_type_buff_remove(self, effect):
+        state.remove_buff(effect[2])
+    def effect_type_default(self, effect):
+        pass
             
     def render_choices(self):
         y_pos = 100

@@ -30,7 +30,6 @@ class NPC(pygame.sprite.Sprite):
         self.image = self.idle_frames[self._check_direction(self.direction)][int(self.frame_index) % len(self.idle_frames[self._check_direction(self.direction)])]
         
     def talk(self):
-        print(f'{self.name} is talking')
         state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_TALK)
         self.current_dialog = DialogSprite(self, self.game_time, self.name, self.file_name, self.absolute_sprite, self.npc_buttons_sprites)
         
@@ -39,10 +38,10 @@ class NPC(pygame.sprite.Sprite):
         del self.current_dialog
     
     def action(self):
-        print(f'{self.name} is actioning')
+        pass
     
     def inspect(self):
-        print(f'{self.name} is inspecting')           
+        pass        
         
     def _check_direction(self, direction):
         if int(direction) == enums.CNST_DIRECTION_RIGHT:

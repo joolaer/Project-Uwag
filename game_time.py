@@ -9,7 +9,7 @@ class GameTime:
         self.action_cap = 3
         
         #Time
-        self.point_of_time = enums.CNST_GAME_TIME_NIGHT
+        self.point_of_time = enums.CNST_GAME_TIME_MORNING
         self.current_time = DisplayTime(self.groups, self.point_of_time)
         
         #Day
@@ -30,13 +30,10 @@ class GameTime:
         elif self.point_of_time == enums.CNST_GAME_TIME_NIGHT:
             self.point_of_time = enums.CNST_GAME_TIME_MORNING
             self._sleep()
-            
+        
+        state.apply_buff_time_delay()
         self.current_time.kill()
         self.current_time = DisplayTime(self.groups, self.point_of_time)
-        
-        print(f'day: {self.day}')
-        print(f'time: {self.point_of_time}')
-        print(f'action: {self.available_action}')
         
     def decrement_available_action(self, amount):
         self.available_action -= amount
@@ -55,6 +52,7 @@ class GameTime:
             self.day = 0
         else: 
             self.day += 1
+        state.apply_buff_date_delay()
         self.current_day.kill()
         self.current_day = DisplayDate(self.groups, self.day)
             
