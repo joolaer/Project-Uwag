@@ -1,5 +1,6 @@
 from settings import *
 from character_data import TIME_DATA, DAY_DATA
+from button import BorderedButton
 
 class GameTime:
     
@@ -15,9 +16,18 @@ class GameTime:
         #Day
         self.day = enums.CNST_GAME_DAY_SUNDAY
         self.current_day = DisplayDate(self.groups, self.day)
+
+        self.button = BorderedButton(self.groups, 'Rest', (100,100), self._transition_time, 
+                                     ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
+        self.button = BorderedButton(self.groups, 'Sleep', (100,160), self._sleep, 
+                                     ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
     
     def _transition_time(self):
         self.available_action = self.action_cap
+
+        if self.point_of_time == enums.CNST_GAME_TIME_NIGHT:
+            self._sleep()
+            return
         
         if self.point_of_time == enums.CNST_GAME_TIME_MORNING:
             self.point_of_time = enums.CNST_GAME_TIME_NOON
@@ -27,9 +37,6 @@ class GameTime:
             self.point_of_time = enums.CNST_GAME_TIME_EVENING
         elif self.point_of_time == enums.CNST_GAME_TIME_EVENING:
             self.point_of_time = enums.CNST_GAME_TIME_NIGHT
-        elif self.point_of_time == enums.CNST_GAME_TIME_NIGHT:
-            self.point_of_time = enums.CNST_GAME_TIME_MORNING
-            self._sleep()
         
         state.apply_buff_time_delay()
         self.current_time.kill()
@@ -48,12 +55,17 @@ class GameTime:
             self.available_action += amount
             
     def _sleep(self):
+        self.point_of_time = enums.CNST_GAME_TIME_MORNING
+
         if self.day == 6:
             self.day = 0
         else: 
             self.day += 1
         state.apply_buff_date_delay()
+        state.apply_buff_time_delay()
         self.current_day.kill()
+        self.current_time.kill()
+        self.current_time = DisplayTime(self.groups, self.point_of_time)
         self.current_day = DisplayDate(self.groups, self.day)
             
         
@@ -97,3 +109,4 @@ class DisplayDate(pygame.sprite.Sprite):
         
         self.image = self.surf
         self.rect = self.image.get_frect(topright = (WINDOW_WIDTH - 70, 0))
+

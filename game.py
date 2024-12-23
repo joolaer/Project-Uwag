@@ -22,7 +22,7 @@ class Game:
         self.all_sprites = AllSprites()
         self.player_sprite = pygame.sprite.GroupSingle()
         self.absolute_sprites = AbsoluteSprites()
-        self.collision_sprites = pygame.sprite.Group()asdasd
+        self.collision_sprites = pygame.sprite.Group()
         self.character_sprites = pygame.sprite.Group()
         self.teleport_sprites = pygame.sprite.Group()
         self.npc_buttons_sprites = pygame.sprite.Group()
