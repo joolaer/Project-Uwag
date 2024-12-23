@@ -95,11 +95,11 @@ class Game:
                 
     
     def _update_events(self):
-        print(state.get_buffs())
         self.clock.tick(60)
         self.all_sprites.update()
         self.absolute_sprites.update()
         self.npc_buttons_sprites.update()
+        self.game_time.update()
         self.display_surface.fill('black')
         self.all_sprites.draw(self.player.rect.center)
         self.absolute_sprites.draw(self.display_surface) 

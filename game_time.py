@@ -17,10 +17,7 @@ class GameTime:
         self.day = enums.CNST_GAME_DAY_SUNDAY
         self.current_day = DisplayDate(self.groups, self.day)
 
-        self.button = BorderedButton(self.groups, 'Rest', (100,100), self._transition_time, 
-                                     ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
-        self.button = BorderedButton(self.groups, 'Sleep', (100,160), self._sleep, 
-                                     ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
+        print(f"{state.STATE_COLLIDED_CHAR}")
     
     def _transition_time(self):
         self.available_action = self.action_cap
@@ -72,8 +69,23 @@ class GameTime:
     def check_available_action(self):
         if self.available_action < 1:
             self._transition_time()
-    
+
+    def check_time_buttons(self):
+        if not state.STATE_COLLIDED_CHAR:
+            if not hasattr(self, 'rest_button') and not hasattr(self, 'sleep_button'):
+                self.rest_button = BorderedButton(self.groups, 'Rest', (100,600), self._transition_time, 
+                                        ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
+                self.sleep_button = BorderedButton(self.groups, 'Sleep', (100,660), self._sleep, 
+                                        ('grey', 'white', 'black'), ('black', 'grey', 'white'), (100,50))
+        else:
+            if hasattr(self, 'rest_button') and hasattr(self, 'sleep_button'):
+                self.rest_button.kill()
+                self.sleep_button.kill()
+                del self.rest_button
+                del self.sleep_button
+
     def update(self):
+        self.check_time_buttons()
         self.check_available_action()
         
 class DisplayTime(pygame.sprite.Sprite):
