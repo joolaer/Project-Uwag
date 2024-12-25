@@ -4,70 +4,70 @@ from button import BorderedButton
 
 class GameTime:
     
-    def __init__(self, groups) -> None:
+    def __init__(self, game, groups) -> None:
+        self.game = game
         self.groups = groups
-        self.available_action = 3
-        self.action_cap = 3
         
         #Time
-        self.point_of_time = enums.CNST_GAME_TIME_MORNING
-        self.current_time = DisplayTime(self.groups, self.point_of_time)
+        self.current_time = DisplayTime(self.groups, state.current_time)
         
         #Day
         self.day = enums.CNST_GAME_DAY_SUNDAY
-        self.current_day = DisplayDate(self.groups, self.day)
+        self.current_day = DisplayDate(self.groups, state.current_day)
 
         print(f"{state.STATE_COLLIDED_CHAR}")
     
     def _transition_time(self):
-        self.available_action = self.action_cap
+        state.available_action = state.action_cap
 
-        if self.point_of_time == enums.CNST_GAME_TIME_NIGHT:
+        if state.current_time == enums.CNST_GAME_TIME_NIGHT:
             self._sleep()
             return
         
-        if self.point_of_time == enums.CNST_GAME_TIME_MORNING:
-            self.point_of_time = enums.CNST_GAME_TIME_NOON
-        elif self.point_of_time == enums.CNST_GAME_TIME_NOON:
-            self.point_of_time = enums.CNST_GAME_TIME_AFTERNOON
-        elif self.point_of_time == enums.CNST_GAME_TIME_AFTERNOON:
-            self.point_of_time = enums.CNST_GAME_TIME_EVENING
-        elif self.point_of_time == enums.CNST_GAME_TIME_EVENING:
-            self.point_of_time = enums.CNST_GAME_TIME_NIGHT
+        if state.current_time == enums.CNST_GAME_TIME_MORNING:
+            state.set_current_time(enums.CNST_GAME_TIME_NOON)
+        elif state.current_time == enums.CNST_GAME_TIME_NOON:
+            state.set_current_time(enums.CNST_GAME_TIME_AFTERNOON)
+        elif state.current_time == enums.CNST_GAME_TIME_AFTERNOON:
+            state.set_current_time(enums.CNST_GAME_TIME_EVENING)
+        elif state.current_time == enums.CNST_GAME_TIME_EVENING:
+            state.set_current_time(enums.CNST_GAME_TIME_NIGHT)
         
+        self.game.update_character_location()
         state.apply_buff_time_delay()
         self.current_time.kill()
-        self.current_time = DisplayTime(self.groups, self.point_of_time)
+        self.current_time = DisplayTime(self.groups, state.current_time)
         
     def decrement_available_action(self, amount):
-        self.available_action -= amount
+        state.set_available_action(state.available_action - amount)
             
-        if self.available_action < 1:
+        if state.available_action < 1:
             self._transition_time()
             
     def increment_available_action(self, amount):
-        if (self.available_action + amount ) > self.action_cap:
-            self.available_action = self.action_cap
+        if (state.available_action + amount ) > state.action_cap:
+            state.set_available_action(state.action_cap)
         else:
-            self.available_action += amount
+            state.set_available_action(state.available_action + amount)
             
     def _sleep(self):
-        self.point_of_time = enums.CNST_GAME_TIME_MORNING
+        state.set_current_time(enums.CNST_GAME_TIME_MORNING)
 
-        if self.day == 6:
-            self.day = 0
+        if state.current_day == 6:
+            state.set_current_day(0)
         else: 
-            self.day += 1
+            state.set_current_day(state.current_day + 1)
+        self.game.update_character_location()
         state.apply_buff_date_delay()
         state.apply_buff_time_delay()
         self.current_day.kill()
         self.current_time.kill()
-        self.current_time = DisplayTime(self.groups, self.point_of_time)
-        self.current_day = DisplayDate(self.groups, self.day)
+        self.current_time = DisplayTime(self.groups, state.current_time)
+        self.current_day = DisplayDate(self.groups, state.current_day)
             
         
     def check_available_action(self):
-        if self.available_action < 1:
+        if state.available_action < 1:
             self._transition_time()
 
     def check_time_buttons(self):

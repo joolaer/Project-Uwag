@@ -58,6 +58,8 @@ class Player(pygame.sprite.Sprite):
     def teleport(self):
         for teleporter in self.teleport_sprites:
             if teleporter.rect.colliderect(self.hitbox_rect):
+                state.set_current_location(teleporter.object['teleport_place'])
+                state.set_current_location_border(teleporter.object['place_border_max'], teleporter.object['place_border_min'])
                 self.hitbox_rect.midbottom = (teleporter.object['teleport_to_x'], teleporter.object['teleport_to_y'])
     
     def input(self):

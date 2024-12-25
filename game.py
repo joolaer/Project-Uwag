@@ -49,7 +49,7 @@ class Game:
             if obj.name == 'map_1_spawn':
                 self.player = Player((obj.x, obj.y), enums.CNST_DIRECTION_RIGHT, (self.all_sprites, self.player_sprite), self.collision_sprites, self.teleport_sprites)
                 
-        self.game_time = GameTime((self.absolute_sprites))
+        self.game_time = GameTime(self, (self.absolute_sprites))
         
         NPC('Mary', 'mary', (self.all_sprites, self.character_sprites), self.game_time, self.absolute_sprites, self.npc_buttons_sprites)
         
@@ -61,6 +61,10 @@ class Game:
             self._set_char_collision()
             self._check_char_collision()
             self._update_events()
+
+    def update_character_location(self):
+        for character in self.character_sprites:
+            character.update_location()
             
     def _set_char_collision(self):
         for sprite in self.character_sprites:

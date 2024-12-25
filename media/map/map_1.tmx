@@ -315,12 +315,18 @@
  <objectgroup id="4" name="Teleporters">
   <object id="27" x="2289" y="382.667" width="8" height="64.6667">
    <properties>
+    <property name="teleport_place" type="string" value="Pier"/>
+    <property name="place_border_max" type="float" value="-3805"/>
+    <property name="place_border_min" type="float" value="-3105"/>
     <property name="teleport_to_x" type="float" value="3140"/>
     <property name="teleport_to_y" type="float" value="450"/>
    </properties>
   </object>
   <object id="29" x="3105" y="386.75" width="3.5" height="60.75">
    <properties>
+    <property name="teleport_place" type="string" value="Hollow Flats"/>
+    <property name="place_border_max" type="float" value="-1020"/>
+    <property name="place_border_min" type="float" value="0"/>
     <property name="teleport_to_x" type="float" value="2250"/>
     <property name="teleport_to_y" type="float" value="450"/>
    </properties>

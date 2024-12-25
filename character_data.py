@@ -98,6 +98,41 @@ CHARACTER_DATA = {
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'sus', '15.png')),
                 pygame.image.load(join('media', 'animation', 'mary', 'face', 'sus', '16.png')),
             ]
+        },
+        'locations': {
+            enums.CNST_GAME_TIME_MORNING: {
+                enums.CNST_DATA_KEY_DEFAULT: {
+                    'position' : (400, 450)
+                },
+                enums.CNST_BUFF_MARY_01: {
+                    'condition' : [
+                        ['day', True, enums.CNST_GAME_DAY_TUESDAY],
+                        ['day', False, enums.CNST_GAME_DAY_MONDAY],
+                        #['buff', True, enums.CNST_BUFF_MARY_01]
+                    ],
+                    'position' : (1700, 450)
+                }
+            },
+            enums.CNST_GAME_TIME_NOON: {
+                enums.CNST_DATA_KEY_DEFAULT: {
+                    'position' : (450, 450)
+                },
+            },
+            enums.CNST_GAME_TIME_AFTERNOON: {
+                enums.CNST_DATA_KEY_DEFAULT: {
+                    'position' : (300, 450)
+                },
+            },
+            enums.CNST_GAME_TIME_EVENING: {
+                enums.CNST_DATA_KEY_DEFAULT: {
+                    'position' : (500, 450)
+                },
+            },
+            enums.CNST_GAME_TIME_NIGHT: {
+                enums.CNST_DATA_KEY_DEFAULT: {
+                    'position' : (1400, 450)
+                },
+            }
         }
     }
 }

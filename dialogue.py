@@ -135,8 +135,11 @@ class DialogSprite(pygame.sprite.Sprite):
         self.character.stats[stat] = self.character.stats[stat] + value_temp
 
     def effect_type_actions(self, effect):
-        action = effect[1]
-        value = effect[2]
+        self.action_effect = effect
+        
+    def activate_action_effect(self):
+        action = self.action_effect[1]
+        value = self.action_effect[2]
         if action == "decrease":
             self.game_time.decrement_available_action(value)
         elif action == "increase":
@@ -197,6 +200,7 @@ class DialogSprite(pygame.sprite.Sprite):
                 self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.dialog_name, self.all_group)
             
         else:
+            self.activate_action_effect()
             state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_NONE)
             self._reset_message_choice_dialog()
             Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), self.character.talk)
