@@ -200,7 +200,8 @@ class DialogSprite(pygame.sprite.Sprite):
                 self.dialog_blit = DialogSpriteBlit(self.dialog_message, self.dialog_name, self.all_group)
             
         else:
-            self.activate_action_effect()
+            if hasattr(self, 'action_effect'):
+                self.activate_action_effect()
             state.set_STATE_COLLIDED_CHAR_MODE(enums.CNST_NPC_BUTTON_TYPE_NONE)
             self._reset_message_choice_dialog()
             Button((self.npc_buttons_sprites), "Talk", enums.CNST_NPC_BUTTON_TYPE_TALK, (275, 510), self.character.talk)

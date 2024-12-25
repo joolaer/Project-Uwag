@@ -104,7 +104,7 @@ CHARACTER_DATA = {
                 enums.CNST_DATA_KEY_DEFAULT: {
                     'position' : (400, 450)
                 },
-                enums.CNST_BUFF_MARY_01: {
+                'something': {
                     'condition' : [
                         ['day', True, enums.CNST_GAME_DAY_TUESDAY],
                         ['day', False, enums.CNST_GAME_DAY_MONDAY],
@@ -127,10 +127,16 @@ CHARACTER_DATA = {
                 enums.CNST_DATA_KEY_DEFAULT: {
                     'position' : (500, 450)
                 },
+                enums.CNST_BUFF_MARY_01: {
+                    'condition' : [
+                        ['buff', True, enums.CNST_BUFF_MARY_01]
+                    ],
+                    'position' : (2000, 450)
+                }
             },
             enums.CNST_GAME_TIME_NIGHT: {
                 enums.CNST_DATA_KEY_DEFAULT: {
-                    'position' : (1400, 450)
+                    'position' : (600, 450)
                 },
             }
         }

@@ -66,17 +66,16 @@ class NPC(pygame.sprite.Sprite):
             type = condition[0]
             cond = condition[1]
             val = condition[2]
-            # print(f'type: {type}')
-            # print(f'cond: {cond}')
-            # print(f'val: {val}')
-            # print(f'state.current_day: {state.current_day}')
-            # print('@@@@@@@@@@@@@@@@@@@@')
             if type == 'day':
                 if (cond and val == state.current_day) or (not cond and val != state.current_day):
-                    tVal = True
+                    tVal =  True
                 else:
                     return False
-            #elif type == 'buff':
+            elif type == 'buff':
+                if (cond and val in state.buff) or (not cond and val not in state.buff):
+                    tVal =  True
+                else:
+                    return False
 
         return tVal
 
